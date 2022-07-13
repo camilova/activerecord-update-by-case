@@ -33,6 +33,14 @@ Having a model `PatientTemperature` with attributes:
 - `passport_number`
 - `flight_number`
 
+And data in `patient_temperatures` table:
+
+| id | temperature | passport_number | flight_number |
+| :--- | :---: | :---: | :---: |
+| 1 | NULL | 111 | 755 |
+| 2 | NULL | 222 | 755 |
+| 3 | NULL | 333 | 755 |
+
 Then we need to update all Patient's temperatures based on its `passport_number` on a single database hit, we build first the next cases hash:
 
     cases = {
