@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'rails'
+
+module UpdateByCase
+  class Engine < Rails::Engine
+    config.generators do |g|
+      g.orm :active_record
+    end
+  end
+end
+
+Rails.application = UpdateByCase::Engine
+
+require 'rails/commands'
