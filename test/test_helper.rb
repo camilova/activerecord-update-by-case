@@ -5,3 +5,6 @@ require "update_by_case"
 require "minitest/autorun"
 require_relative "../models/test_model"
 require "byebug"
+require_relative "../support/database_configuration"
+
+DatabaseConfiguration.establish_connection
