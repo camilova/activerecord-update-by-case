@@ -73,8 +73,8 @@ module UpdateByCase
       instance.update_all(case_sql_fragment)
     end
 
-    def update_by_case
-      update_by_case! rescue false
+    def self.update_by_case(cases)
+      update_by_case!(cases) rescue false
     end
 
   end
