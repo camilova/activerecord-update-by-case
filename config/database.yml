@@ -1,0 +1,10 @@
+default: &default
+  adapter: postgresql
+  
+development:
+  <<: *default
+  database: gem_update_by_case_development
+
+test:
+  <<: *default
+  database: gem_update_by_case_test

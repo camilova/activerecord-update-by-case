@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+ENV['ENV'] ||= 'development'
+
 require "bundler/setup"
 require "update_by_case"
+require 'active_record'
+require 'logger'
+require 'pry'
 
-require "irb"
-IRB.start(__FILE__)
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+
+Pry.start
