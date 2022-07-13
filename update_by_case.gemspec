@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'railties'
   spec.add_development_dependency 'byebug'
+  spec.add_development_dependency 'minitest-hooks'
 end
