@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pg'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'railties'
+  spec.add_development_dependency 'byebug'
 end
