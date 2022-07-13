@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    update_by_case (0.1.0)
+    update_by_case (0.1.1)
       activerecord (>= 4.0.0)
+      pg
 
 GEM
   remote: https://rubygems.org/
