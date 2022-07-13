@@ -8,7 +8,7 @@ module UpdateByCase
 
   class UpdateByCaseUtils
     WHERE_OPTION = 'where'.freeze
-    SEPARATOR = (ENV['RAILS_ENV']&.downcase == 'development' ? "\n" : " ").freeze
+    SEPARATOR = (ENV['ENV']&.downcase == 'development' ? "\n" : " ").freeze
 
     class << self
 
