@@ -1,84 +1,54 @@
 # frozen_string_literal: true
 
 require_relative "update_by_case/version"
+require_relative "update_by_case/utils"
 require "active_record"
 
 module UpdateByCase
   extend ::ActiveSupport::Concern
 
-  class UpdateByCaseUtils
-    WHERE_OPTION = 'where'.freeze
-    SEPARATOR = (ENV['ENV']&.downcase == 'development' ? "\n" : " ").freeze
+  included do
 
     class << self
 
-      def separate_operator
-        ",#{SEPARATOR}"
-      end
-
-      def sql_value(attribute_value)
-        attribute_value.nil?? 'NULL' : "'#{attribute_value}'"
-      end
-
-      def sql_type(model, attribute_name)
-        model.columns.find { |c| c.name.to_s == attribute_name.to_s }.sql_type
-      end
-
-      def build_case_sql_fragment(model, attribute_name, key_attribute, attribute_cases)
-        case_sql_fragment = "#{attribute_name}=(CASE #{key_attribute}#{SEPARATOR}"
-        attribute_cases.each do |key_attribute_value, attribute_value|
-          value = sql_value(attribute_value)
-          sql_key_attribute_value = key_attribute_value
-          if key_attribute_value.is_a?(String) || key_attribute_value.is_a?(Symbol)
-            sql_key_attribute_value = "'#{key_attribute_value}'"
+      def update_by_case!(cases)
+        case_sql_fragment = ""
+        cases.each do |attribute_name, attribute_cases|
+          next if attribute_name&.to_s == Utils::WHERE_OPTION
+          if attribute_cases.is_a?(Hash) && attribute_cases.size == 1 && 
+            attribute_cases.first.second.is_a?(Hash) then
+            case_sql_fragment += Utils.separate_operator unless case_sql_fragment.empty?
+            case_sql_fragment += Utils.build_case_sql_fragment(
+              self,
+              attribute_name, 
+              attribute_cases.first.first, 
+              attribute_cases.first.second,
+            )
+          elsif attribute_cases.is_a?(Hash) && attribute_cases.size.positive?
+            case_sql_fragment += Utils.separate_operator unless case_sql_fragment.empty?
+            case_sql_fragment += Utils.build_case_sql_fragment(
+              self,
+              attribute_name, 
+              primary_key, 
+              attribute_cases
+            )
+          elsif ! attribute_cases.is_a?(Hash)
+            # Assume attribute_cases is only one value for all cases
+            case_sql_fragment += Utils.separate_operator unless case_sql_fragment.empty?
+            value = Utils.sql_value(attribute_cases)
+            sql_type = Utils.sql_type(self, attribute_name)
+            case_sql_fragment += "#{attribute_name}=#{value}::#{sql_type}#{Utils::SEPARATOR}"
           end
-          case_sql_fragment += "WHEN #{sql_key_attribute_value} THEN #{value}#{SEPARATOR}"
         end
-        sql_type = sql_type(model, attribute_name)
-        case_sql_fragment += "ELSE #{attribute_name} END)::#{sql_type}"
+        instance = self
+        instance = where(cases[:where]) if cases[:where].present?
+        instance.update_all(case_sql_fragment)
       end
-      
-    end
-  end
 
-  included do
-
-    def self.update_by_case!(cases)
-      case_sql_fragment = ""
-      cases.each do |attribute_name, attribute_cases|
-        next if attribute_name&.to_s == UpdateByCaseUtils::WHERE_OPTION
-        if attribute_cases.is_a?(Hash) && attribute_cases.size == 1 && 
-          attribute_cases.first.second.is_a?(Hash) then
-          case_sql_fragment += UpdateByCaseUtils.separate_operator unless case_sql_fragment.empty?
-          case_sql_fragment += UpdateByCaseUtils.build_case_sql_fragment(
-            self,
-            attribute_name, 
-            attribute_cases.first.first, 
-            attribute_cases.first.second,
-          )
-        elsif attribute_cases.is_a?(Hash) && attribute_cases.size.positive?
-          case_sql_fragment += UpdateByCaseUtils.separate_operator unless case_sql_fragment.empty?
-          case_sql_fragment += UpdateByCaseUtils.build_case_sql_fragment(
-            self,
-            attribute_name, 
-            primary_key, 
-            attribute_cases
-          )
-        elsif ! attribute_cases.is_a?(Hash)
-          # Assume attribute_cases is only one value for all cases
-          case_sql_fragment += UpdateByCaseUtils.separate_operator unless case_sql_fragment.empty?
-          value = UpdateByCaseUtils.sql_value(attribute_cases)
-          sql_type = UpdateByCaseUtils.sql_type(self, attribute_name)
-          case_sql_fragment += "#{attribute_name}=#{value}::#{sql_type}#{UpdateByCaseUtils::SEPARATOR}"
-        end
+      def update_by_case(cases)
+        update_by_case!(cases) rescue false
       end
-      instance = self
-      instance = where(cases[:where]) if cases[:where].present?
-      instance.update_all(case_sql_fragment)
-    end
 
-    def self.update_by_case(cases)
-      update_by_case!(cases) rescue false
     end
 
   end

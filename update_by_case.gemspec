@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
   spec.files = [
     "lib/update_by_case.rb",
     "lib/update_by_case/version.rb",
+    "lib/update_by_case/utils.rb",
   ]
   spec.require_paths = ["lib"]
   spec.add_dependency "activerecord", ">= 4.0.0"
