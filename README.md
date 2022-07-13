@@ -25,7 +25,7 @@ Pass a `cases` **hash** as the only one argument to `update_by_case(cases)` wher
 - Inside any first level's keys nest a new hash with **one** key that will be the comparison field for the cases.
 - Any pair of key|value inside the comparison field hash will be the case and the value to update for each case.
 
-### Example of Cases
+### Example of Cases Hash
 
 Having a model `PatientTemperature` with attributes: 
 - `id` 
@@ -35,13 +35,13 @@ Having a model `PatientTemperature` with attributes:
 
 And data in `patient_temperatures` table:
 
-| id | temperature | passport_number | flight_number |
+| id (INTEGER) | temperature (DECIMAL) | passport_number (INTEGER) | flight_number (INTEGER) |
 | :--- | :---: | :---: | :---: |
 | 1 | NULL | 111 | 755 |
 | 2 | NULL | 222 | 755 |
 | 3 | NULL | 333 | 755 |
 
-Then we need to update all Patient's temperatures based on its `passport_number` on a single database hit, we build first the next cases hash:
+Then we want to update all Patient's temperatures based on its `passport_number` on a single database hit, we build first the next cases hash:
 
     cases = {
       temperature: {
