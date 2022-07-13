@@ -145,7 +145,15 @@ Will produce the following SQL:
       WHEN 3 then 36.1
       ELSE temperature
       END
-    )::DECIMAL
+    )::DECIMAL,
+    passport_number = (
+      CASE id 
+      WHEN 1 then 111
+      WHEN 2 then 222
+      WHEN 3 then 333
+      ELSE passport_number
+      END
+    )::INTEGER
     WHERE id in (1, 2, 3);
 
 ## Contributing
