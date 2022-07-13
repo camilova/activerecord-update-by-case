@@ -8,7 +8,10 @@ require "update_by_case"
 require 'active_record'
 require 'logger'
 require 'pry'
+require_relative '../models/test_model'
+require_relative '../support/database_configuration'
 
+DatabaseConfiguration.establish_connection
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 Pry.start
