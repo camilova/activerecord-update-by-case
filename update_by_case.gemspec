@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors = ["Camilo Vargas A"]
   spec.email = ["vargas.antiguay@gmail.com"]
 
-  spec.summary = "Update multiple records depending on case values on a single database hit!"
-  spec.description = "This gem adds a new method to ActiveRecord to allow update records by cases"
-  spec.homepage = "https://rubygems.org/gems/update_by_case"
+  spec.summary = "Update multiple records based on case values on a single database hit"
+  spec.description = "This gem adds to ActiveRecord a method update_by_case that allows you to update multiple records based on case values on a single database hit, avoiding n+1 problem and optimizing performance\n See documentation on home page at Github"
+  spec.homepage = "https://github.com/camilova/activerecord-update-by-case"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.4.5"
   spec.files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   ]
   spec.require_paths = ["lib"]
   spec.add_dependency "activerecord", ">= 4.0.0"
+  spec.add_dependency "pg"
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
   spec.add_development_dependency 'pg'
