@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["vargas.antiguay@gmail.com"]
 
   spec.summary = "Update multiple records based on case values on a single database hit"
-  spec.description = "This gem adds to ActiveRecord a method update_by_case that allows you to update multiple records based on case values on a single database hit, avoiding n+1 problem and optimizing performance\n See documentation on home page at Github"
+  spec.description = "This gem adds to ActiveRecord a method update_by_case that allows you to update multiple records based on case values on a single database hit."
   spec.homepage = "https://github.com/camilova/activerecord-update-by-case"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.4.5"
