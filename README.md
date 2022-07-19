@@ -23,7 +23,7 @@ Pass a `cases` **hash** as the only one argument to `update_by_case(cases)` wher
 
 - Any key on the first level will be an `attribute` of the `model` to be updated.
 - Inside any first level's keys nest a new hash with **one** key that will be the comparison field for the cases.
-- Any pair of key|value inside the comparison field hash will be the case and the value to update for each case.
+- Any pair of `key: value` inside the comparison field hash will be the case and the value to update for each case.
 
 ### Example of Cases Hash
 
