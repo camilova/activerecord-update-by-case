@@ -1,1 +1,3 @@
 theme: jekyll-theme-cayman
+title: Activerecord update_by_case
+description: Update many records by case values on a single database hit
