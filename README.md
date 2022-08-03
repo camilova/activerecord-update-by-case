@@ -1,6 +1,6 @@
 # Activerecord update_by_case
 
-This gem adds two methods to the `ActiveRecord::Base` class that allow you to update many records on a single database hit, using a `case sql statement` for it.
+This Rails gem adds two methods to the `ActiveRecord::Base` class that allow you to update many records on a single database hit, using a `case sql statement` for it.
 
 - `update_by_case!(cases)`
 - `update_by_case(cases)`
