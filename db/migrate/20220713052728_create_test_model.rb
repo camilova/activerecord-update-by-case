@@ -4,6 +4,7 @@ class CreateTestModel < ActiveRecord::Migration[7.0]
       t.integer :value_1
       t.string :value_2
       t.boolean :value_3
+      t.integer :value_4
     end
   end
 end

@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_13_052728) do
     t.integer "value_1"
     t.string "value_2"
     t.boolean "value_3"
+    t.integer "value_4"
   end
 
 end
