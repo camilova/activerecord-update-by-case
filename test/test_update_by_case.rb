@@ -50,4 +50,42 @@ class TestUpdateByCase < GemTest
     assert TestModel.order(:id).pluck(:value_1) == [0, 0, 0]
   end
 
+  def test_empty_cases_hash_should_be_ommited
+    cases = { value_1: { value_2: {} } }
+    assert TestModel.order(:id).pluck(:value_1) == [1, 2, 3]
+    TestModel.update_by_case!(cases)
+    assert TestModel.order(:id).pluck(:value_1) == [1, 2, 3]
+  end
+
+  def test_update_based_on_multiple_cases_keys
+    cases = { 
+      value_1: { 
+        value_2: { 'one' => 6, 'two' => 7, 'three' => 8 } 
+      },
+      value_4: {
+        value_2: { 'one' => 111, 'two' => 222, 'three' => 333 }
+      } 
+    }
+    assert TestModel.pluck(:value_2) == %w(one two three)
+    TestModel.update_by_case!(cases)
+    assert TestModel.pluck(:value_1) == [6, 7, 8]
+    assert TestModel.pluck(:value_4) == [111, 222, 333]
+  end
+
+  def test_update_based_on_multiple_cases_keys_with_one_empty
+    cases = { 
+      value_1: { 
+        value_2: {}
+      },
+      value_4: {
+        value_2: { 'one' => 111, 'two' => 222, 'three' => 333 }
+      } 
+    }
+    assert TestModel.order(:id).pluck(:value_1) == [1, 2, 3]
+    assert TestModel.pluck(:value_4) == [100, 200, 300]
+    TestModel.update_by_case!(cases)
+    assert TestModel.order(:id).pluck(:value_1) == [1, 2, 3]
+    assert TestModel.pluck(:value_4) == [111, 222, 333]
+  end
+
 end
